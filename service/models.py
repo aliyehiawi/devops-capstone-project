@@ -88,12 +88,13 @@ class Account(db.Model):
 
     @classmethod
     def init_db(cls, app):
-        """Initializes the database session"""
+        """Initializes the database session (idempotent)"""
         logger.info("Initializing database")
         cls.app = app
-        db.init_app(app)
-        app.app_context().push()
-        db.create_all()
+        if "sqlalchemy" not in app.extensions:
+            db.init_app(app)
+        with app.app_context():
+            db.create_all()
 
     @classmethod
     def all(cls) -> list:
