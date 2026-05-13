@@ -15,7 +15,7 @@ from service.common import log_handlers
 # Create Flask application
 app = Flask(__name__)
 app.config.from_object(config)
-talisman = Talisman(app)
+talisman = Talisman(app, force_https=False)
 CORS(app)
 
 # Dependencies require we import the routes AFTER the Flask app is created
