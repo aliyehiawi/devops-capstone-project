@@ -93,8 +93,8 @@ class Account(db.Model):
         cls.app = app
         if "sqlalchemy" not in app.extensions:
             db.init_app(app)
-        with app.app_context():
-            db.create_all()
+        app.app_context().push()
+        db.create_all()
 
     @classmethod
     def all(cls) -> list:
